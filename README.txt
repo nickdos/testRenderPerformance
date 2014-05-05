@@ -1,4 +1,4 @@
-#testRenderPreformance Grails application
+# testRenderPerformance Grails application
 
 Requires Grails 2.3.7 or higher
 
