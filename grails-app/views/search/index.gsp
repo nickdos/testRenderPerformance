@@ -14,7 +14,14 @@
 </head>
 
 <body>
+<g:set var="startPageTime" value="${System.currentTimeMillis()}"/>
 <h1>Render test</h1>
 <g:render template="facets" />
+<g:set var="endPageTime" value="${System.currentTimeMillis()}"/>
+<div style="color:red">
+    page render time = ${(endPageTime - startPageTime)} ms<br>
+    controller processing time = ${processingTime} ms<br>
+    total processing time = ${(endPageTime - startPageTime) + processingTime} ms
+</div>
 </body>
 </html>
