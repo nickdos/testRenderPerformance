@@ -19,15 +19,47 @@ import groovy.xml.MarkupBuilder
 import org.apache.commons.lang.StringUtils
 import org.apache.commons.lang.time.DateUtils
 import org.codehaus.groovy.grails.web.json.JSONObject
+import org.springframework.web.servlet.support.RequestContextUtils
 
 import java.text.SimpleDateFormat
 
 class OccurrenceTagLib {
     //static defaultEncodeAs = 'html'
     //static encodeAsForTags = [tagName: 'raw']
-    static returnObjectForTags = ['getLoggerReasons']
+    static returnObjectForTags = ['getLoggerReasons','message']
     def webServicesService, authService, outageService
     static namespace = 'alatag'     // namespace for headers and footers
+
+    /**
+     * Alternative to g.message(code:'foo.bar')
+     * TODO: not implemented the error, message, args, encodeAs or locale attributes (not used in this project yet)
+     *
+     * @see org.codehaus.groovy.grails.plugins.web.taglib.ValidationTagLib
+     *
+     * @attr code REQUIRED
+     * @attr default
+     */
+    def message = { attrs ->
+        def code = attrs.code?.toString() // in case a G-sting
+        def output = ""
+
+        if (code) {
+            String defaultMessage
+            if (attrs.containsKey('default')) {
+                defaultMessage = attrs['default']?.toString()
+            } else {
+                defaultMessage = code
+            }
+
+            //log.error "code = ${code} || defaultCode = ${defaultCode}"
+            Map messagesMap = messageSourceCacheService.getMessagesMap(RequestContextUtils.getLocale(request)) // g.message too slow so we use a Map instead
+            def message = messagesMap.get(code)
+            output = message ?: defaultMessage
+            //log.error "locale = ${RequestContextUtils.getLocale(request)}"
+        }
+
+        return output
+    }
 
     /**
      * Formats the display of dynamic facet names in Sandbox (facet options popup)
@@ -153,7 +185,6 @@ class OccurrenceTagLib {
 
     /**
      *  Generate facet links in the left hand column
-     *
      */
     def facetLinkList = { attrs ->
         def facetResult = attrs.facetResult

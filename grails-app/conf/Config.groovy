@@ -18,6 +18,7 @@ facets.exclude = "dataHubUid,year,month,day,modified,left,right,provenance,taxon
 facets.hide = "genus,order,class,phylum,kingdom,raw_taxon_name,rank,interaction,raw_state_conservation,biogeographic_region,year,institution_uid,collection_uid"
 facets.include = "establishment_means,user_assertions,assertion_user_id,name_match_metric,duplicate_type,alau_user_id,raw_datum,raw_sex,life_stage,elevation_d_rng,identified_by,species_subgroup"
 
+biocache.baseUrl = "http://biocache.ala.org.au"
 showBenchMarks = true
 
 grails.project.groupId = appName // change this to alter the default package name and Maven publishing destination

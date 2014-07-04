@@ -48,7 +48,12 @@
                         <g:set var="fieldDisplayName" value="${alatag.formatDynamicFacetName(fieldName:"${facetResult.fieldName}")}"/>
                         <h4><span class="FieldName">${fieldDisplayName?:facetResult.fieldName}</span></h4>
                         <div class="subnavlist nano" style="clear:left">
-                            <alatag:facetLinkList facetResult="${facetResult}" queryParam="${queryParam}"/>
+                            <g:if test="${version == 1}">
+                                <alatag:facetLinkList facetResult="${facetResult}" queryParam="${queryParam}"/>
+                            </g:if>
+                            <g:else>
+                                <alatag:facetLinkList2 facetResult="${facetResult}" queryParam="${queryParam}"/>
+                            </g:else>
                         </div>
                         %{--<div class="fadeout"></div>--}%
                         <g:if test="${facetResult.fieldResult.length() > 0}">
